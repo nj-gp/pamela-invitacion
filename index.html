@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hola, Pamela ✨</title>
+    <meta name="description" content="Una pequeña invitación con cariño. Elige el día que te quede mejor y cuéntame qué te provoca." />
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="./css/style.css" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="./img/icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./img/icon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./img/icon.png">
+</head>
+
+<body class="bg-gradient-to-br from-rose-50 via-fuchsia-50 to-indigo-50 text-gray-800">
+  <!-- wrapper para aplicar blur al abrir el modal -->
+  <div class="page-blur">
+    <main class="container mx-auto px-4 py-10 sm:py-14">
+      <section class="glass rounded-3xl bg-white/70 shadow-xl ring-1 ring-black/5 p-6 sm:p-10">
+        <header class="mb-8 flex items-center gap-3">
+            <div class="grid place-items-center h-12 w-12 rounded-2xl bg-gradient-to-br from-rose-400 to-fuchsia-500 shadow-md overflow-hidden">
+                <img src="./img/icon.png" alt="icono" class="h-8 w-8 object-contain">
+            </div>
+          <div>
+            <h1 class="text-2xl sm:text-3xl font-semibold leading-tight">Hola, Pamela ✨</h1>
+            <p class="text-sm sm:text-base text-gray-600">Si te provoca, me encantaría verte esta semana. ¿Qué día te queda mejor?</p>
+          </div>
+        </header>
+
+        <!-- FECHA + HORA -->
+        <fieldset>
+          <legend class="mb-3 text-sm font-medium text-gray-700">Elige un día (3–9 de noviembre, 2025)</legend>
+          <div class="flex flex-col sm:flex-row gap-2 items-stretch sm:items-center">
+            <input id="fechaDisplay" class="input-area flex-1" type="text" placeholder="Elige un día (3–9 nov, 2025)" readonly>
+            <button id="btnCalendario" type="button" class="btn-secondary">Abrir calendario</button>
+          </div>
+          <p class="text-xs text-gray-500 mt-1">Rango permitido: 3–9 nov 2025 · Hora opcional</p>
+        </fieldset>
+
+        <!-- PLAN -->
+        <div class="mt-8">
+          <label class="mb-3 block text-sm font-medium text-gray-700">¿Qué te gustaría hacer?</label>
+          <div id="planes" class="flex flex-wrap gap-2">
+            <button type="button" data-plan="Paseo por Barranco" class="plan chip">Paseo por Barranco</button>
+            <button type="button" data-plan="Parque de las Aguas" class="plan chip">Parque de las Aguas</button>
+            <button type="button" data-plan="Café tranquilo" class="plan chip">Café tranquilo</button>
+            <button type="button" data-plan="Sorpresa 🤫" class="plan chip">Sorpresa 🤫</button>
+          </div>
+        </div>
+
+        <!-- FLORES (realistas y comunes) -->
+        <div class="mt-8">
+          <label class="mb-3 block text-sm font-medium text-gray-700">¿Qué flores te gustan más?</label>
+          <div id="flores" class="flex flex-wrap gap-2">
+            <button type="button" class="flower chip" data-flower="Girasoles" data-emoji="🌻">🌻 Girasoles</button>
+            <button type="button" class="flower chip" data-flower="Rosas rojas" data-emoji="🌹">🌹 Rosas rojas</button>
+            <button type="button" class="flower chip" data-flower="Rosas rosadas" data-emoji="🌸">🌸 Rosas rosadas</button>
+            <button type="button" class="flower chip" data-flower="Rosas blancas" data-emoji="🤍">🤍 Rosas blancas</button>
+            <button type="button" class="flower chip" data-flower="Margaritas" data-emoji="🌼">🌼 Margaritas</button>
+            <button type="button" class="flower chip" data-flower="Tulipanes" data-emoji="💐">💐 Tulipanes</button>
+            <button type="button" class="flower chip" data-flower="Lavanda" data-emoji="💜">💜 Lavanda</button>
+            <button type="button" class="flower chip" data-flower="Astromelias" data-emoji="✨">✨ Astromelias</button>
+          </div>
+          <p class="text-xs text-gray-500 mt-1">Si no eliges, yo llevo un detallito discreto 😊</p>
+        </div>
+
+        <!-- NOTA -->
+        <div class="mt-8">
+          <label for="nota" class="mb-2 block text-sm font-medium text-gray-700">Déjame una nota opcional</label>
+          <textarea id="nota" rows="3" class="input-area" placeholder="Ej: miércoles 5 me va excelente, 7:30 está bien 🙌"></textarea>
+        </div>
+
+        <!-- BOTONES -->
+        <div class="mt-10 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+          <button id="btnPreview" class="btn-primary">Ver mensaje</button>
+          <button id="btnWhatsapp" class="btn-secondary" disabled>Enviar por WhatsApp</button>
+          <button id="btnCopiar" class="btn-secondary" disabled>Copiar mensaje</button>
+        </div>
+
+        <!-- PREVIEW -->
+        <div id="previewBox" class="mt-6 hidden">
+          <div class="preview-box"></div>
+        </div>
+
+        <footer class="mt-10 text-center text-xs text-gray-500">Hecho con cariño ✨ · No guarda datos · 100% privado</footer>
+      </section>
+    </main>
+  </div>
+
+  <!-- MODAL fuera del wrapper para que el blur afecte todo lo demás -->
+  <div id="modalCal" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="calTitle">
+      <h3 id="calTitle" class="text-lg font-semibold mb-3">Elige fecha y hora</h3>
+      <div class="grid gap-3">
+        <label class="text-sm text-gray-700">Fecha (3–9 nov 2025)</label>
+        <input id="inputFecha" type="date" min="2025-11-03" max="2025-11-09" class="input-area">
+        <label class="text-sm text-gray-700">Hora (opcional)</label>
+        <input id="inputHora" type="time" step="900" value="19:30" class="input-area">
+      </div>
+      <div class="mt-4 flex flex-wrap gap-2">
+        <button type="button" class="chip quick" data-quick="2025-11-03">Lun 3</button>
+        <button type="button" class="chip quick" data-quick="2025-11-04">Mar 4</button>
+        <button type="button" class="chip quick" data-quick="2025-11-05">Mié 5</button>
+        <button type="button" class="chip quick" data-quick="2025-11-06">Jue 6</button>
+        <button type="button" class="chip quick" data-quick="2025-11-07">Vie 7</button>
+        <button type="button" class="chip quick" data-quick="2025-11-08">Sáb 8</button>
+        <button type="button" class="chip quick" data-quick="2025-11-09">Dom 9</button>
+      </div>
+      <div class="mt-6 flex justify-end gap-2">
+        <button id="calCancelar" type="button" class="btn-secondary">Cancelar</button>
+        <button id="calAceptar"  type="button" class="btn-primary">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./js/script.js"></script>
+</body>
+</html>
